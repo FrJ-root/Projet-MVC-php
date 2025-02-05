@@ -30,7 +30,7 @@ services:
       - .:/var/www/html
     working_dir: /var/www/html
     ports:
-      - "81"
+      - "81:80"
     depends_on:
       - postgres
 volumes:

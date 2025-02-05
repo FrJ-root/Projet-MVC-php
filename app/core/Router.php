@@ -3,30 +3,33 @@ namespace App\Core;
 
 class Router {
     private $routes = [];
-    public function addRoute($method, $path, $controller, $action) {
+
+    public function add($method, $uri, $controller) {
         $this->routes[] = [
             'method' => $method,
-            'path' => $path,
+            'uri' => $uri,
             'controller' => $controller,
-            'action' => $action
         ];
     }
     public function dispatch() {
-        $requestMethod = $_SERVER['REQUEST_METHOD'];
-        $requestUri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-        $requestUri = str_replace('/Public', '', $requestUri);
-    
-        echo "Request Method: $requestMethod, URI: $requestUri<br>"; // Debugging output
-    
+        $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+        $method = $_SERVER['REQUEST_METHOD'];
         foreach ($this->routes as $route) {
-            if ($route['method'] === $requestMethod && $route['path'] === $requestUri) {
-                $controller = new $route['controller']();
-                $action = $route['action'];
-                $controller->$action();
-                return;
+            if ($route['uri'] === $uri && $route['method'] === $method) {
+                return $this->callAction(...explode('@', $route['controller']));
             }
         }
-        http_response_code(404);
-        echo 'Page non trouvée';
+        echo "yeep ".http_response_code(404)."but =>  "."❌";
+    }
+    protected function callAction($controller, $action) {
+        $controller = "App\\Controllers\\$controller";
+        if (!class_exists($controller)) {
+            die("❌ Contrôleur `$controller` non trouvé !");
+        }
+        $controller = new $controller();
+        if (!method_exists($controller, $action)) {
+            die("❌ Méthode `$action` non trouvée dans `$controller` !");
+        }
+        $controller->$action();
     }
 }

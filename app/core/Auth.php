@@ -2,13 +2,13 @@
 namespace App\Core;
 
 class Auth {
-    public static function login($userId) {
-        $_SESSION['user_id'] = $userId;
+    public static function login($user) {
+        Session::set('user', $user);
     }
     public static function logout() {
-        session_destroy();
+        Session::destroy();
     }
     public static function isAuthenticated() {
-        return isset($_SESSION['user_id']);
+        return Session::has('user');
     }
 }

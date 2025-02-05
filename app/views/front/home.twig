@@ -1,13 +1,27 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Page d'accueil</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dudes List</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.0/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body>
-    <h1>Bienvenue ^_- </h1>
-    <a href="/redirectedHome">
-        <button>Move . .</button>
-    </a>
+<body class="bg-gray-100">
+    <div class="container mx-auto px-4 py-6">
+        <h1 class="text-3xl font-bold text-center mb-8 text-gray-800">Liste des articles</h1>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {% for article in articles %}
+                <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+                    <div class="p-6">
+                        <h2 class="text-xl font-semibold text-gray-900">{{ article.title }}</h2>
+                        <p class="text-gray-700 mt-2">{{ article.description }}</p>
+                    </div>
+                    <div class="bg-gray-100 px-6 py-4 text-sm text-gray-600">
+                        Publié le {{ article.created_at|date("d/m/Y H:i:s") }}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
 </body>
 </html>

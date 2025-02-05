@@ -2,7 +2,7 @@
 namespace App\Core;
 
 class Security {
-    public static function sanitizeInput($data) {
+    public static function sanitize($data) {
         return htmlspecialchars($data, ENT_QUOTES, 'UTF-8');
     }
     public static function generateCsrfToken() {

@@ -1,4 +1,3 @@
 <?php
-use App\Controllers\Front\HomeController;
-
-$router->addRoute('GET', '/', HomeController::class, 'index');
+$router->add('GET', '/', 'Front\HomeController@index');
+$router->add('GET', '/about', 'Front\AboutController@index');
